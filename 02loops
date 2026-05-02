@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+#basic for loop
+# for thing in foo bar bat cat;do
+#     echo $thing
+# done
+
+# loop through all of the args
+# $@ helps to do that
+
+greet(){
+    #if we didn't add the local, then it will become global variable
+    local name=$1
+    echo "hello $name"
+    return 0
+}
+
+for name in "$@"; do
+#   ./greet $name
+    greet $name
+done
+

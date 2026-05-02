@@ -94,4 +94,119 @@ tr command will translate the given argument to specifed argument
     #unset env variables
     unset session # variable will vanish 
 ```
- 
+
+**yes command**
+```bash
+    $ yes #unlimited y!!!
+```
+# 📝 Vim Editor Cheat Sheet
+
+> **Vim Editor** (Vi IMproved), often invoked as `vi`, is a powerful text editor.  
+> Run `vimtutor` in your terminal for a beginner-friendly interactive tutorial.
+
+---
+
+## 🚀 Basic Commands (Start, Save, Exit)
+
+| Command        | Usage |
+|----------------|------|
+| `vi myfile`     | Open file for editing |
+| `vi -r myfile`  | Recover file after crash |
+| `:r file2`      | Insert contents of file2 at cursor |
+| `:w`            | Save file |
+| `:w myfile`     | Save as new file |
+| `:w! file2`     | Force overwrite file2 |
+| `:x` or `:wq`   | Save and exit |
+| `:q`            | Quit |
+| `:q!`           | Quit without saving |
+
+---
+
+## ⌨️ Insert & Editing
+
+| Key | Usage |
+|-----|------|
+| `a` | Append after cursor |
+| `A` | Append at end of line |
+| `i` | Insert before cursor |
+| `I` | Insert at beginning of line |
+| `o` | New line below and insert |
+| `O` | New line above and insert |
+| `r` | Replace single character |
+| `R` | Replace multiple characters |
+
+---
+
+## ✂️ Delete, Copy, Paste, Undo
+
+| Key | Usage |
+|-----|------|
+| `x` | Delete character |
+| `Nx` | Delete N characters |
+| `dw` | Delete word |
+| `D` | Delete till end of line |
+| `dd` | Delete current line |
+| `Ndd` or `dNd` | Delete N lines |
+| `yy` | Copy (yank) line |
+| `Nyy` or `yNy` | Copy N lines |
+| `p` | Paste |
+| `u` | Undo |
+
+---
+
+## 🧭 Cursor Movement
+
+| Key | Usage |
+|-----|------|
+| Arrow keys | Move cursor |
+| `j` or `Enter` | Move down |
+| `0` | Beginning of line |
+| `$` | End of line |
+| `w` | Next word |
+| `:0` or `1G` | Start of file |
+| `:n` or `nG` | Go to line n |
+| `G` | End of file |
+| `Ctrl + F` | Page down |
+| `Ctrl + B` | Page up |
+| `Ctrl + L` | Refresh screen |
+
+---
+
+## 🔍 Searching
+
+- `/pattern` → Search forward  
+- `?pattern` → Search backward  
+- `n` → Next occurrence  
+- `N` → Previous occurrence  
+
+---
+
+## ⚡ Must-Know Essentials
+
+- `i`, `a`, `Esc`
+- `:w`, `:q`, `:wq`
+- `dd`, `yy`, `p`
+- `/search`, `n`
+- `h j k l` (better than arrow keys)
+
+---
+# Bash Programming 
+
+> Must start with shebang!!! notation  
+> ```bash
+> #!/usr/bin/env bash 
+>```  
+> ```bash
+> bash -n filename #for debugging
+> echo $? #which used to get to know the previous command executed successfully or not
+>```
+> Since we already mentioned in the starting of the file, it's not necessary to use `filename.sh` the extension for the file.  
+We can execute bash scripts file in 2 ways:  
+    1.` bash filename`  
+    2. `./filename` (if the file has permission to execute)  `chmod +x filename`  
+   for viewing the file, we can use `cat` or `bat` commands
+   
+---
+
+
+

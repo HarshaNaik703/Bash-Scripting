@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# variables are represented by the '$'symbol
+# variable doesn't need to have space befere and after '='
+# system variables need to written in '$(....)'
+
+#single quotes won't allow the varibale($) and spaces between the words
+
+name='Harsha'
+uname=$(uname)
+echo "hello $name"
+echo "$uname"
+
+
