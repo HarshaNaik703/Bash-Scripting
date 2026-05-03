@@ -5,9 +5,17 @@
 # ..........
 # fi
 
-if [[ -n $1 ]]; then
-    name=$1 #first arg in the terminal
-else
-    read -p "Enter your name " name
-fi
-echo "hello $name"
+
+
+# if [[ -n $1 ]]; then
+#     name=$1 #first arg in the terminal
+# else
+#     read -p "Enter your name " name
+# fi
+# echo "hello $name"
+
+# reading input from user
+
+# read -p "Write something" something
+
+# echo "$something"

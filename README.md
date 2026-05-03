@@ -208,5 +208,44 @@ We can execute bash scripts file in 2 ways:
    
 ---
 
+# File related Commands  
+File related commands help in file operations in the file
+```bash
+    $ help test
+    # for example
+    # -f checks file exist or not
+    # -N checks if file is modified after last read or not
+```
 
+# New line and number notation in the terminal
+```bash
+    $ echo "hello" | xxd
+```
+# Reading and Redirecting The Data:
+
+```bash
+    $ cat file | bash file
+    $ bash file < path  # given the path of the file
+    $ < path | bash file # can put syntax anywhere
+```
+
+# $ related thing
+```bash
+    #!/urs/bash/env bash
+    # $# tells the number of arguments
+    # $@ executes the arguments
+    # $1 indicates 1 argument
+    # 
+```
+
+# File Descriptor  
+A file descriptor is an integer that uniquely identifies an open file, socket, or other I/O resource within a process. It abstracts the underlying file system, providing a consistent interface for reading from and writing to resources.
+
+Here some of the common file descriptor  
+
+File Descriptor 0 : Standard Input (stdin)
+
+File Descriptor 1 : Standard Output (stdout)
+
+File Descriptor 2 : Standard Error (stderr)
 

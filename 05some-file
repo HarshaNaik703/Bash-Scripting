@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+greet() {
+    local s="$1"
+    echo "greet $s"
+}
+
+hello() {
+    local s="$1"
+    echo "say hello to $s"
+}
+
+if (( $# == 0 )); then
+    echo "no args" >&2
+    exit 1
+fi
+
+for name in "$@"; do
+    if [[ $name == d* ]]; then
+        greet "$name"
+    elif [[ $name == s* ]]; then
+        hello "$name"
+    else
+        true
+    fi
+done

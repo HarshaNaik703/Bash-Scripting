@@ -1,10 +1,31 @@
 #!/usr/bin/env bash
 
-a=1
-b=2
+# a=1
+# b=2
 
-if [[ $a == $b ]];then
-    echo "a and b are equal"
-else 
-    echo "a and b are not equal"
+# if [[ $a == $b ]];then
+#     echo "a and b are equal"
+# else 
+#     echo "a and b are not equal"
+# fi
+
+# #to check weather file exists or not , we use -f
+# if [[ -f greet ]];then
+#     echo "File exists and it's regular file"
+# fi
+
+
+# if true; then
+#     echo "true"
+# else 
+#     echo "false"
+# fi
+
+# if sudo apt-get update -y; then
+#     echo "update"
+# fi
+
+# if the condition didn't get the new line, it will not run
+if read -r data || [[ -n "$data" ]]; then
+    echo "$data"
 fi

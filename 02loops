@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# {a..d} tells the ranges
+
 #basic for loop
 # for thing in foo bar bat cat;do
 #     echo $thing
@@ -8,15 +10,46 @@
 # loop through all of the args
 # $@ helps to do that
 
-greet(){
-    #if we didn't add the local, then it will become global variable
-    local name=$1
-    echo "hello $name"
-    return 0
-}
+# greet(){
+#     #if we didn't add the local, then it will become global variable
+#     local name=$1
+#     echo "hello $name"
+#     return 0
+# }
 
-for name in "$@"; do
-#   ./greet $name
-    greet $name
+# for name in "$@"; do
+# #   ./greet $name
+#     greet $name
+# done
+
+# while [[ -f file.txt ]]; do
+#     echo "file exists"
+#     sleep 1
+# done
+
+# echo "file gone!!!!"
+
+# until [[ -f file ]]; do
+#     echo "file does not exists"
+#     sleep 1
+# done
+
+# echo "file exists"
+
+# for letter in {a..h}; do
+#     echo "print the $letter"
+#     sleep 1
+# done
+
+# C-style for loop
+
+# for (( i = 0; i < 5; i++)); do
+#     echo "$i"
+# done
+
+# if we didn't put anything in the bash file, we need to write "true" or ":"
+
+
+while read -r data || [[ -n "$data" ]]; do
+    echo "$data"
 done
-
