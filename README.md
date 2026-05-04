@@ -250,3 +250,45 @@ File Descriptor 1 : Standard Output (stdout)
 File Descriptor 2 : Standard Error (stderr)
 >This is the exact answer given for file descriptor in "stack overflow"
 >>"In simple words, when you open a file, the operating system creates an entry to represent that file and store the information about that opened file. So if there are 100 files opened in your OS then there will be 100 entries in OS (somewhere in kernel). These entries are represented by integers like (...100, 101, 102....). This entry number is the file descriptor. So it is just an integer number that uniquely represents an opened file for the process. If your process opens 10 files then your Process table will have 10 entries for file descriptors."
+
+
+#### executing or using the command in the program
+```bash
+    #!/usr/bin/env bash
+    thing=`whoami` # use backquote(`) to write the command
+    # below command will execute command too
+    whoami #!!!
+    #this will print the string
+    echo `echo `whoami``
+```
+
+##### Dollor-parent Notation
+```bash
+    #!/usr/bin/env bash
+
+    thing=$(whoami)
+    echo $(echo $(whoami))
+```
+
+# Function
+```bash
+    #!/usr/bin/env bash
+    i=5
+    fun() {
+        i=10
+    }
+
+    var={ fun; } # can modify the global scope, basically `{}` creating the subshell
+    fun # fun can amodify the global scope!!!
+    # var=$(fun)
+
+    echo "$i" #10
+```
+# Some important Rules while Programming
+
+1. Leading 0's represent the hexadecimal notation and `10#$a` where a=10 treated as decimal notationn
+2. Expressions must write in the `(())` and conidting write in `[[]]`
+
+
+# Process Substitution
+

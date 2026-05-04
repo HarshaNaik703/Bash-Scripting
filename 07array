@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+
+# when you want to stringify the elements, then use "*"
+# array=(foo bar baz)
+# for ele in "${array[*]}"; do
+#     echo "$ele"
+# done
+
+declare -a array
+
+array=(foo bar baz)
+# for ele in "${array[@]}"; do
+#     echo "$ele"
+# done
+
+#array copying
+
+# second_array="${array[@]}"
+second_array+=(itme1 item2)
+for ele in "${second_array[@]}"; do
+    echo "$ele"
+done
+
+echo "${#second_array[@]}"

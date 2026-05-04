@@ -1,0 +1,16 @@
+#!/urs/bin/env bash
+
+words=$(grep d /usr/share/dict/words)
+
+# i=0
+
+# for word in $words; do
+#     (( i++ ))
+# done
+
+# echo $i
+
+# this is process substitution in the 
+while read -r word; do
+    echo $word
+done <<< "$words"

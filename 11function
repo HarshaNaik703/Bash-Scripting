@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# fun() {
+#     echo "hi"
+# }
+
+# var=$(fun)
+# echo "function says $var"
+# 
+# function can modify the global command
+
+i=5
+fun() {
+    i=10
+}
+
+fun
+# var=$(fun)
+
+echo "$i"

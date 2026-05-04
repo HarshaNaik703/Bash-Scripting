@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+# case statement
+
+var='foo'
+
+# case "$var" in 
+#     dave)
+#         echo "hii dave"
+#         ;;
+#     harsha)
+#         echo "hi harsha"
+#         ;;
+#     *)
+#         echo "$var"
+#         ;;
+# esac
+
+# case "$var" in 
+#     foo)
+#         echo "mathced foo"
+#         ;&
+#     bar)
+#         echo "matched bar"
+#         ;&
+#     f*)
+#         echo "matched f*"
+#         ;&
+#     *)
+#         echo "matched *"
+# esac
+
+case "$var" in 
+    foo)
+        echo "mathced foo"
+        ;;&
+    bar)
+        echo "matched bar"
+        ;;&
+    f*)
+        echo "matched f*"
+        ;;&
+    *)
+        echo "matched *"
+esac

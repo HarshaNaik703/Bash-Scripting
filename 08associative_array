@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# associative arrays are key value pairs
+# declare -A arr
+
+# echo "$?"
+
+if ! declare -A arr; then
+    echo "not created"
+else 
+    echo "associative array created"
+fi
+
+arr[1]="item1"
+arr[2]="item2"
+
+echo "${arr[1]}"
+
+# for getting values 
+echo "${arr[@]}"
+
+# getting keys use '!'
+echo "${!arr[*]}"
+
+for key in "${!arr[@]}"; do
+    value="${arr[$key]}"
+    echo "$key = $value"
+done

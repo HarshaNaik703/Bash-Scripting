@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+thing=`whoami` # use backquote(`) to write the command
+# below command will execute command too
+whoami # !!!
+#this will print the string
+echo `echo `whoami``

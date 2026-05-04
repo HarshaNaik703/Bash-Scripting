@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+add=$(( 2+2))
+
+echo "$add"
+
+a=20
+b=30
+
+(( max = a > b ? true : false ))
+
+echo $max
+
+
+# in the program, the value of true is 0 so it will fail executing
+if (( a%2 )); then
+    echo "something"
+else
+    echo "something else"
+fi
+
+i=0
+
+while(($i < 20)); do
+    echo "$i"
+    ((i++))
+done

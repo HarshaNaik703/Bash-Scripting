@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# IFS will destructure the strings containing "*"
+
+IFS=,
+
+# code writtin inside the array is called subshells
+# it's life is also short
+ 
+(
+    array=(foo bar baz)
+
+    echo "array is ${array[*]}"
+)
