@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+returnCode() {
+    echo "successful execution"
+    return 456 # 8-bit values , gives random values
+    # return 156  # gives the same value
+}
+
+returnCode || echo $?
+

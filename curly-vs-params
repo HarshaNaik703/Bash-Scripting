@@ -1,0 +1,11 @@
+#!/urs/bin/env bash
+
+. ./greetings || exit 1
+
+name="harsha"
+echo "before name $name"
+(greet dave)
+
+# good-bye dave
+
+echo "after name $name"

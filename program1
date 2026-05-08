@@ -1,0 +1,50 @@
+set -x 
+#!/usr/bin/env bash
+
+
+process-indexed() {
+    local array=("$@")
+    echo "found ${#array[@]} arguments"
+
+    IFS=,
+    echo "${array[*]}"
+}
+
+process-associative() {
+    local array=("$@")
+    local item
+    local -A unique
+    echo "Total elements in the array ${#array[@]}"
+    for item in "${array[@]}"; do
+        unique[$item]=1
+    done
+    echo "The total number of unique elements are ${#unique[@]}"
+}
+
+process-command() {
+    local array=("$@")
+    echo "found ${#array[@]} arguments"
+    local item
+    for item; do
+        echo "running command $item"
+        "$item"
+    done
+}
+
+cmd=$1
+shift
+case "$cmd" in 
+    indexed)
+        process-indexed "$@"
+        ;;
+    associative)
+        process-associative "$@"
+        ;;
+    command)
+        process-command "$@"
+        ;;
+    *)
+        echo "not a command" >&2
+        exit 1
+        ;;
+esac

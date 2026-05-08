@@ -288,7 +288,108 @@ File Descriptor 2 : Standard Error (stderr)
 
 1. Leading 0's represent the hexadecimal notation and `10#$a` where a=10 treated as decimal notationn
 2. Expressions must write in the `(())` and conidting write in `[[]]`
+3. Anything in the right of the pipe is considered as subshell.
+4. `<` expects file.
+5. `shift` does same job as pop_front
+6. If you don't specify the iterable in the for loop , it will loop over the arguments, ` $1, $2, $3....$n`.
+7. Scopes in the function, instead of `{}` we can use `()` to avoid scope issues.  
+8. `{}` used to pipe the things inside. 
 
 
 # Process Substitution
+Process Substitution executes a command and puts the output into file temporarily
+
+### Points to rem:
+1. Process Substitution doesn't have exit code, it will maks the errors
+```bash
+    while read -r word; do
+    echo $word
+    done < <(grep d /usr/share/dict/words)
+```
+
+# cut and tr
+
+### tr translate one character to another character
+```bash 
+    $ cat sample.csv | tr , '\t'
+```
+
+### cut command used to cut the output to our desire
+```bash
+    $ cat sample.csv | cut -d , -f 2 # here -d is delimiter and -f is files and numbers are index
+    $ cat sample.csv | cut -d , -f 1-4
+    $ cat sample.csv | cut -d , -f 1,3,4
+    $ cat sample.csv | cut -d , -f 2,3 | tr , '\t'
+
+    $ cut -d : -f 1 /etc/passwd
+``` 
+
+# sed , awk and grep
+
+### stream editor is used to edit the string.
+```bash
+    $ cut -d : -f 1-4 /etc/passwd | sed 's/harsha/buddy/' # we can use '#' to replace '/'
+    $ grep harsha /etc/passwd | sed -e 's#harsha#buddy#' -e 's#/bin/bash#/tin/tash#'
+```
+
+### awk is a powerful tool for string manipulation 
+```bash
+    $ cat /etc/passwd | awk '{ print $0 }' # have default delimiter as white space
+    $ cat /etc/passwd | awk -F : '{ print $0 }'
+    $ cat /etc/passwd | awk -F: '$1=="harsha-naik"{ print $1,$5 }'
+    $ < /etc/passwd awk -F: '$1=="harsha-naik"{ print $1, $5 }' # input redirectin
+    $ < /etc/passwd awk -F: '{ print $7 }' | sort | uniq 
+
+```
+
+# word count
+```bash
+    $ man ls | grep file | wc # give output containing word coung , character count and line count
+    $ man ls | grep file | wc -l #(-c -w)
+```
+
+# find command
+
+### find cmd list out all the files and folders by default 
+```bash
+    $ find . -type d #for directory d for dir and f for plane files
+    $ find . -type f -name "*.txt"
+    # exec
+    $ find /usr/share -type f -name '*.txt' -exec echo hi I found a file {} hurry ';' # must escape using ';' or '\'  
+```
+
+# Bash Arguments
+
+```bash
+    $ bash -x file # this puts bash file in debug mode
+    $ PS4='[debug]: ' bash file 
+    $ bash -n file # gives syntax errors in the file
+    $ bash -u file # undefined files
+    $ bash -nu file
+```
+we can also do this by writing `set -x` on top of the bash script.   
+we can put `set -x` -> some code -> `set +x` which executes only specified codes.
+
+# shellcheck
+shellcheck is used to find the errors in the script
+```bash
+    $ shellcheck bashfile
+```
+
+# pipe status
+
+
+# time 
+### time command used to calculate the time spend to execute the command by the user, system and real
+
+
+# sourcing (importin) the files
+
+refer 14sourcing and 15importing files
+
+# Curlies and Params
+
+# Return vs Output
+Return codes are 8-bit characters in the linux.
+
 

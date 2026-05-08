@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+read -p "Enter the file name " file
+
+touch "$file"
+
+sudo chmod 777 "$file"
+
+echo "#!/usr/bin/env bash" > "$file"
+
+code "$file"

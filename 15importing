@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+source ./14sourcing
+
+## error handling
+
+. ./15intact || exit 1
+
+greet harsha
+goodbye harsha

@@ -1,0 +1,23 @@
+#!/urs/bin/env bash
+
+func() {
+    echo "function is executing stdout" >&1
+    echo "function is executing stderr" >&2
+    return 0
+}
+
+# var=$(func) # stderr will execute first as it is execute first
+# var=$(func 2>/dev/null)
+# var=$(func >&1 ) # redirecting the error to output
+
+
+# if we want only error to redirect, then we have to do redirect stdout to null and error to stdout
+
+var=$(func 2>&1 >/dev/null )
+
+
+code=$?
+
+echo "output = $var and code = $code"
+
+

@@ -11,6 +11,22 @@ words=$(grep d /usr/share/dict/words)
 # echo $i
 
 # this is process substitution in the 
+# while read -r word; do
+#     echo $word
+# done <<< "$words"
+
+# instead we can do this to avoid large memory allocation
+i=0
+# grep d /usr/share/dict/words | while read -r word; do
+#     echo $word
+#     ((i++))
+# done
+# echo $i #we will get zero because whatever executes in the right of the subshell executes in the subshell
+
+# here process substitution comes in  
 while read -r word; do
     echo $word
-done <<< "$words"
+    ((i++))
+done < <(grep d /usr/share/dict/words)
+
+echo $i

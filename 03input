@@ -16,6 +16,6 @@
 
 # reading input from user
 
-# read -p "Write something" something
+read -p "Write something" something
 
-# echo "$something"
+echo "${something[@]}"
