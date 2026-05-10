@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+array=(foo bar baz)
+
+# echo "${array[@]}"
+
+printf "%s\n" "${array[@]}"

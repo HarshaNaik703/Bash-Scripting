@@ -378,18 +378,269 @@ shellcheck is used to find the errors in the script
 
 # pipe status
 
+### `$PIPESTATUS` is an array that holds the exit codes of each command in the last pipeline
+```bash
+    $ cat file.txt | grep "pattern" | sort
+    $ echo "${PIPESTATUS[@]}"   # e.g. output: 0 0 0
+    $ echo "${PIPESTATUS[0]}"   # exit code of cat
+    $ echo "${PIPESTATUS[1]}"   # exit code of grep
+    $ echo "${PIPESTATUS[2]}"   # exit code of sort
+```
+
+### Practical usage: checking if any command in a pipeline failed
+```bash
+    #!/usr/bin/env bash
+    cat file.txt | grep "pattern" | sort > output.txt
+    statuses=("${PIPESTATUS[@]}")   # capture immediately, it gets overwritten on next command
+
+    for i in "${!statuses[@]}"; do
+        if [[ "${statuses[$i]}" -ne 0 ]]; then
+            echo "Command $i in pipeline failed with exit code ${statuses[$i]}"
+        fi
+    done
+```
+
+### Using `pipefail` — makes the pipeline return the exit code of the first failed command
+```bash
+    set -o pipefail
+
+    cat nonexistent.txt | grep "pattern"   # pipeline fails because cat fails
+    echo "$?"                               # returns non-zero (cat's exit code)
+```
 
 # time 
-### time command used to calculate the time spend to execute the command by the user, system and real
+### time command used to calculate the time spent to execute the command — reports user, system, and real (wall clock) time
 
+```bash
+    $ time sleep 2
+    # real    0m2.002s  <- actual wall clock time elapsed
+    # user    0m0.000s  <- CPU time spent in user space
+    # sys     0m0.001s  <- CPU time spent in kernel space
 
-# sourcing (importin) the files
+    $ time find / -name "*.log" 2>/dev/null   # timing a heavier command
 
-refer 14sourcing and 15importing files
+    # time a block of commands
+    $ time {
+        sleep 1
+        sleep 1
+    }
+```
+
+### Redirecting time output (time writes to stderr)
+```bash
+    { time sleep 2; } 2> time_output.txt
+    cat time_output.txt
+```
+
+# sourcing (importing) the files
+
+### `source` (or its shorthand `.`) runs a file in the **current shell**, so variables and functions defined in it become available in the current session
+```bash
+    # helpers.sh
+    greet() {
+        echo "Hello, $1!"
+    }
+    DB_HOST="localhost"
+```
+
+```bash
+    #!/usr/bin/env bash
+
+    source ./helpers.sh       # import helpers.sh into current shell
+    # OR equivalently:
+    . ./helpers.sh
+
+    greet "Harsha"            # Hello, Harsha!
+    echo "$DB_HOST"           # localhost
+```
+
+### Difference between `source` and executing a script
+```bash
+    bash helpers.sh    # runs in a subshell — variables/functions NOT available after it exits
+    source helpers.sh  # runs in current shell — variables/functions ARE available after
+```
+
+### Common pattern: separating config from logic
+```bash
+    # config.sh
+    export APP_PORT=8080
+    export APP_ENV="production"
+```
+
+```bash
+    #!/usr/bin/env bash
+    source ./config.sh        # load config
+    echo "Starting on port $APP_PORT in $APP_ENV mode"
+```
 
 # Curlies and Params
 
-# Return vs Output
-Return codes are 8-bit characters in the linux.
+### Variable expansion with `${}` gives you extra control over values
 
+```bash
+    name="Harsha"
+
+    echo "${name}"              # basic expansion (same as $name)
+    echo "${name:-default}"     # use "default" if name is unset or empty
+    echo "${name:=default}"     # assign "default" to name if unset or empty
+    echo "${name:?error msg}"   # print error and exit if name is unset or empty
+    echo "${name:+other}"       # use "other" only if name IS set (opposite of :-)
+```
+
+### Substring and length
+```bash
+    s="Hello, World"
+    echo "${#s}"        # length: 12
+    echo "${s:7}"       # from index 7 to end: World
+    echo "${s:7:5}"     # from index 7, 5 chars: World
+```
+
+### Prefix and suffix stripping
+```bash
+    path="/home/harsha/projects/main.sh"
+
+    echo "${path#/}"          # strip shortest match of '/' from front
+    echo "${path##*/}"        # strip longest match of '*/' from front -> main.sh (basename)
+    echo "${path%/*}"         # strip shortest match of '/*' from end  -> /home/harsha/projects
+    echo "${path%%/*}"        # strip longest match of '/*' from end   -> (empty, starts with /)
+    echo "${path%.sh}"        # strip .sh suffix -> /home/harsha/projects/main
+```
+
+### Indirect expansion (variable of a variable)
+```bash
+    var="name"
+    name="Harsha"
+    echo "${!var}"      # Harsha  — expands the variable whose name is stored in $var
+```
+
+### Special parameters
+```bash
+    echo "$0"    # script name
+    echo "$1"    # first argument
+    echo "$@"    # all arguments as separate words (use in loops)
+    echo "$*"    # all arguments as a single word
+    echo "$#"    # number of arguments
+    echo "$$"    # PID of current shell
+    echo "$!"    # PID of last background process
+    echo "$?"    # exit code of last command
+    echo "$-"    # current shell option flags
+```
+
+# Return vs Output
+Return codes are 8-bit integers (0–255) in Linux. `0` means success; any non-zero value means failure.
+
+### Return codes vs printed output — they are two different things
+```bash
+    my_func() {
+        echo "I am output"   # this goes to stdout
+        return 42            # this is the return/exit code
+    }
+
+    my_func           # prints: I am output
+    echo "$?"         # prints: 42  (the return code)
+
+    result=$(my_func) # captures stdout into $result; return code still in $?
+    echo "$result"    # I am output
+    echo "$?"         # 42
+```
+
+### Exit codes for scripts
+```bash
+    #!/usr/bin/env bash
+    if [[ ! -f "$1" ]]; then
+        echo "File not found" >&2   # errors go to stderr
+        exit 1                       # non-zero = failure
+    fi
+    echo "File exists"
+    exit 0                           # 0 = success (optional, default)
+```
+
+### Using return codes for control flow
+```bash
+    command_that_might_fail
+    if [[ $? -ne 0 ]]; then
+        echo "Something went wrong"
+    fi
+
+    # shorter idiom:
+    command_that_might_fail || echo "Something went wrong"
+    command_that_must_pass  && echo "Success!"
+```
+
+### `set -e` — exit the script immediately on any non-zero return code
+```bash
+    set -e
+    cp file.txt /backup/   # if this fails, script stops here
+    echo "Backup done"     # only runs if cp succeeded
+```
+
+# String Manipulation
+
+```bash
+    $ s="HARSHA"
+    $ echo "${#s}
+    $ echo "${s^^}"  # capatisize
+    $ echo "${s^^a}" # capatilize only a
+    $ echo "${s,,}" # decapatilize
+    $ echo "${s,,a}"
+    $ echo "${s,,[ab]}"
+
+    #character replacement
+    $ echo "${s/a/o}" # first a replaced by o
+    $ echo "${s//a/o}" # all a's replaced by o 
+
+    # character/s deletion
+    $ echo "${s#*/}" # from the begining '#' match anything '*' up until first '/' and delete it
+    $ echo "${s##*/}" # from the begining '#' match anything '*' up until last '/' and delete it.
+
+    # substring
+    $ echo "${s:1:5}" # from 1st index, pring 5 char
+    $ echo "${s: -1 }"
+```
+
+## All the Operations are valid to arrays!!!
+### Array elements are treated as string if we use '*' 
+```bash
+    $ array=(foo bar baz)
+    $ echo "${array[@]#b} # remove b from starting
+    $ echo "${array[@]%z} # last z from ending 
+    $ (IFS=_; echo "${array[*]})
+```
+
+# Character Globbing
+```bash
+    $ ls -1 files/*.txt
+    $ ls -1 files/foo.*
+```
+
+# Extended Globbing
+```bash
+    $ ls -1 ?(name1|name2).txt # matches everything from name1 as well as name2
+
+```
+
+# shopt (shell options)
+
+```bash
+    $ shopt # list out all the functionality
+    $ shotp -s functionality # turning on (-s set and -u unset)
+```
+
+# null glob (empty/*)
+
+`$ printf "%s\n" ** # recursively finds the file`
+
+# Brace Expansion
+
+```bash
+    $ echo "filename".{txt,mov,jpeg}
+
+    # we can put this into array and start iterating
+    array=( "filename."{txt,mov,jpeg} )
+
+    for item in "${array[@]}"; do
+        echo "$item"
+    done 
+
+```
 

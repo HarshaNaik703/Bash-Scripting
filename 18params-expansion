@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# name=${1:-Harsha}
+# name=${1:-$USER}
+name=${1:-?'You must give a name'} #it must be given with value
+
+echo "${name}"
