@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+cleanup(){
+    echo "cleaned up running process"
+    # if we over ride with exit code, then it will change it to that specified exit code 
+    # exit 1
+}
+# it will run at the end as we have given in exit code
+trap cleanup exit
+
+echo script strating
+echo .....
+echo script ended
+# exit 2

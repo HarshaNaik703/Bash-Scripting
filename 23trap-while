@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+print(){
+    echo "Hello World"
+}
+
+trap print SIGINT || exit 1
+
+while true; do
+    sleep 1
+    echo running
+done
+
+# we must use 'jobs' to find out the running tasks and use kill "%pid" to kill it
+
+# kill %% kills the last running process
